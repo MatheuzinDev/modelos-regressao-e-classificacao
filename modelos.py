@@ -7,10 +7,11 @@ class MeanModel:
     def __init__(self, y_train):
         self.y_train = y_train
         
-    
+    # Treinamento
     def fit(self):
         self.beta_0 = np.mean(self.y_train)
         
+    # Predição
     def predict(self,X_test):
         N = X_test.shape[0]
         if len(X_test.shape) > 2:
@@ -18,7 +19,6 @@ class MeanModel:
         else:
             return np.ones((N,1))*self.beta_0
             
-
 
 class LinearRegression:
     def __init__(self, X_train, y_train, fit_intercept = True):
@@ -33,10 +33,13 @@ class LinearRegression:
             ))
         
         self.beta_hat = None
+
+    # Treinamento
     def fit(self):
         self.beta_hat = np.linalg.inv(self.X_train.T@self.X_train)@self.X_train.T@self.y_train
         bp=1
         
+    # Predição
     def predict(self, X_test):
         N = X_test.shape[0]
         if self.fit_intercept:
@@ -70,12 +73,13 @@ class RidgeRegression:
 
         self.beta_hat = None
 
+    # Treinamento
     def fit(self):
         n_features = self.X_train.shape[1]
 
         I = np.eye(n_features)
 
-        # não regulariza o intercepto
+        # Não regulariza o intercepto
         if self.fit_intercept:
             I[0, 0] = 0
 
@@ -83,6 +87,7 @@ class RidgeRegression:
             self.X_train.T @ self.X_train + self.lamb * I
         ) @ self.X_train.T @ self.y_train
 
+    # Predição
     def predict(self, X_test):
         N = X_test.shape[0]
 

@@ -26,7 +26,7 @@ for r in range(R):
     X_aleatorio = X[idx, :]
     y_aleatorio = y[idx, :]
 
-    # Split 80/20
+    # Divisão 80/20
     corte = int(N * 0.8)
 
     X_treino = X_aleatorio[:corte, :]
@@ -35,9 +35,7 @@ for r in range(R):
     X_teste = X_aleatorio[corte:, :]
     y_teste = y_aleatorio[corte:, :]
 
-    # =========================
     # Modelo da média
-    # =========================
     media = MeanModel(y_treino)
     media.fit()
     y_hat = media.predict(X_teste)
@@ -51,9 +49,7 @@ for r in range(R):
     resultados["Media"]["MSE"].append(mse)
     resultados["Media"]["R2"].append(r2)
 
-    # =========================
     # MQO tradicional
-    # =========================
     ols = LinearRegression(X_treino, y_treino, fit_intercept=True)
     ols.fit()
     y_hat = ols.predict(X_teste)
@@ -67,9 +63,7 @@ for r in range(R):
     resultados["MQO"]["MSE"].append(mse)
     resultados["MQO"]["R2"].append(r2)
 
-    # =========================
     # MQO regularizado
-    # =========================
     for lmb in lambdas:
         nome = f"Ridge_{lmb}"
 
