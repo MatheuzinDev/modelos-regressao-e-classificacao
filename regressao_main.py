@@ -22,7 +22,7 @@ lr.fit()
 y_plot_lr = lr.predict(x_plot)
 
 # Ajuste do modelo MQO regularizado
-ridge = RidgeRegression(X, y, lamb=10000000000, fit_intercept=False)
+ridge = RidgeRegression(X, y, lamb=0.25, fit_intercept=False)
 ridge.fit()
 y_plot_ridge = ridge.predict(x_plot)
 
