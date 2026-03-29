@@ -1,34 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 1. Carregamento dos dados
-# O arquivo possui 3 linhas e 50000 colunas. 
 data_emg = np.loadtxt("EMGsDataset.csv", delimiter=',')
 
-# Linhas 0 e 1 são as características (Sensores). Linha 2 são as classes (1 a 5).
-X_raw = data_emg[0:2, :]  # Shape: (2, 50000)
-y_raw = data_emg[2, :]    # Shape: (50000,)
+X_raw = data_emg[0:2, :]  
+y_raw = data_emg[2, :]    
 
 N = X_raw.shape[1]
-C = 5 # 5 classes de expressões faciais
+C = 5 
 
-# 2. Preparação das matrizes para o MQO de Classificação
-# O PDF exige X em R^(N x p) e Y em R^(N x C) para o MQO
-X_mqo = X_raw.T # Transpõe para ficar (50000, 2)
+# 1. Preparando as matrizes para o MQO de Classificação
+X_mqo = X_raw.T 
 
-# Criando a matriz Y (One-Hot Encoding) na mão
+# Aqui nós realizamos o One-Hot Encoding.
 Y_mqo = np.zeros((N, C))
 for i in range(N):
-    classe_atual = int(y_raw[i]) - 1 # Subtrai 1 porque os índices em Python começam em 0
+    classe_atual = int(y_raw[i]) - 1 
     Y_mqo[i, classe_atual] = 1
 
 print(f"Shape de X para MQO: {X_mqo.shape}")
 print(f"Shape de Y para MQO: {Y_mqo.shape}")
 
-# 3. Preparação das matrizes para os Modelos Gaussianos
-# O PDF exige X em R^(p x N) e Y em R^(C x N) 
-X_gauss = X_raw # Já está no formato (2, 50000)
-Y_gauss = Y_mqo.T # Transpõe o Y que criamos para ficar (5, 50000)
+# 2. Preparando as matrizes para os Modelos Gaussianos
+X_gauss = X_raw 
+Y_gauss = Y_mqo.T 
 
 print(f"Shape de X para Gaussianos: {X_gauss.shape}")
 print(f"Shape de Y para Gaussianos: {Y_gauss.shape}")
